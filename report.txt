@@ -1,0 +1,18 @@
+//Brief report
+
+
+MyMap's associate() function takes log(N) steps, where N is the number of keys it has.This is because it is always traversing either left or right side of the binary tree, cutting the tree in half every time it goes left or right until it reaches a nullptr. MyMap's find() function takes log(N) steps as well as it is effectively doing a binary search.
+
+If N is the total number of street segments and A is the total number of attractions, then AttractionMapper's init() function's Big O is O(N+Alog(A)). It takes N steps to retrieve a line, and it takes log(A) to steps to insert into MyMap, and that process happens A times.
+
+If A is the total number of attractions in MyMap, then AttractionMapper's getGeoCoord() function takes O(logA) steps as MyMap's find() is a logarithmic function.
+
+
+If N is the total number of street segments and A is the total number of attractions, then SegmentMapper's init() function's Big O is O((N+A)*log(N+A)). This is noticeably more complex than the other functions. To get through every geo coordinate, all N street segments and all A attractions need to be processed to retrieve the geocoordinate. From there, it takes log(N+A) to associate any geo coordinate to the vector of street segments it is on (pushing back any street segment on that vector is O(1) ). Thus, O((N+A)*log(N+A)).
+
+
+
+If N is the total number of street segments and A is the total number of attractions, then SegmentMapper's getSegments() function's Big O is O(log(N+A)). This is similar to the getGeoCoord() function, except we need to accounts for A attractions. This is because the geocoordinate that the attraction is on also contributes to the amount of street segments inside the vector.
+
+
+I may not have implemented navigate() correctly. Ideally, if there are N streets segments, it takes O(N) time to find a route from point A to B. Such is the case when using A* algorithm, which I attempted to implement but was not successful. With A*, you are guaranteed the shortest path from point A to B, so the worst case scenario is O(N). However, within navigate, I call segmentmapper’s getSegments function, which is O(log(N+A)), with A being total attractions. We have to consider both N street segments and A total attractions, so final big O is O(N * log(N+A) because for every street segment, we call getSegements for one of its end points).
